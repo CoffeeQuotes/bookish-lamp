@@ -26,8 +26,26 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-
-                <form action="{{ url('admin/login') }}" method="post">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><i class="icon fas fa-ban"></i> Invalid Credentials!</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if (Session::has('error_message'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><i class="icon fas fa-ban"></i>Error: {{ Session::get('error_message') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </div>
+                @endif
+                <form action="{{ url('admin/login') }}" id="loginForm" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input name="email" type="email" class="form-control" placeholder="Email">
@@ -83,7 +101,51 @@
     <!-- Bootstrap 4 -->
     <script src="{{ url('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src="{{ url('admin/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ url('admin/js/adminlte.min.js') }}"></script>
+    <script src="{{ url('admin/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ url('admin/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+    <script>
+        $(function() {
+            $.validator.setDefaults({
+                submitHandler: function() {
+                    $('#loginForm').submit()
+                }
+            });
+            $('#loginForm').validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    password: {
+                        required: true,
+                        maxlength: 20
+                    },
+                },
+                messages: {
+                    email: {
+                        required: "Please enter a email address",
+                        email: "Please enter a valid email address"
+                    },
+                    password: {
+                        required: "Please provide a password",
+                        maxlength: "Your password must be at least 20 characters long"
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.input-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
