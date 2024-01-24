@@ -8,6 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>AdminLTE 3 | Starter</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -56,6 +58,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ url('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url('admin/js/adminlte.min.js') }}"></script>
+    <script src="{{ url('admin/js/custom.js') }}"></script>
+    @stack('page-script')
 </body>
 
 </html>

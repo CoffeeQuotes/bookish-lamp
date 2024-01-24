@@ -119,7 +119,8 @@
                     },
                     password: {
                         required: true,
-                        maxlength: 20
+                        maxlength: 20,
+                        minlength: 6
                     },
                 },
                 messages: {
@@ -129,7 +130,7 @@
                     },
                     password: {
                         required: "Please provide a password",
-                        maxlength: "Your password must be at least 20 characters long"
+                        maxlength: "Your password must not exceeds 20 characters."
                     },
                 },
                 errorElement: 'span',
