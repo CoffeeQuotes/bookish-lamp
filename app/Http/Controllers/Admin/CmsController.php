@@ -48,17 +48,34 @@ class CmsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CmsPage $cmsPage)
+    public function edit(Request $request, $id = null)
     {
         //
+        if ($id === null) {
+            $title = 'New CMS Page';
+        } else {
+            $title = 'Edit CMS Page';
+        }
+        return view('admin.pages.add_edit_cms_page')->with(compact('title'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CmsPage $cmsPage)
+    public function update(Request $request)
     {
         //
+        if ($request->ajax()) {
+            $data = $request->all();
+            // dd($data);
+            if ($data['status'] === 'active') {
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+            CmsPage::where('id', $data['page_id'])->update(['status' => $status]);
+            return response()->json(['status' => $status, 'page_id' => $data['page_id']]);
+        }
     }
 
     /**

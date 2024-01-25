@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class CmsPage extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "title",
+        "description",
+        "url",
+        "meta_title",
+        "meta_description",
+        "meta_keywords",
+        "status"
+    ];
 }

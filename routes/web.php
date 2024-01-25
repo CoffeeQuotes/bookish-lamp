@@ -27,5 +27,7 @@ Route::prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function 
         Route::get('logout', 'AdminController@logout');
 
         Route::get('cms-pages', 'CmsController@index');
+        Route::post('update-cms-pages-status', 'CmsController@update');
+        Route::match(['get', 'post'], 'add-edit-cms-page', 'CmsController@edit');
     });
 });

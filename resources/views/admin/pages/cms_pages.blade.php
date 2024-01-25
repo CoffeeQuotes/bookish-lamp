@@ -31,7 +31,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-
+                            <div class="card-header">
+                                <a class="btn btn-primary" href="{{ url('admin/add-edit-cms-page') }}"><i
+                                        class="fas fa-plus"></i> New page</a>
+                            </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="cmspages" class="table table-bordered table-striped">
@@ -40,7 +43,6 @@
                                             <th>ID</th>
                                             <th>Title</th>
                                             <th>Url</th>
-                                            <th>Status</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -51,20 +53,30 @@
                                                 <td>{{ $CmsPage['id'] }}</td>
                                                 <td>{{ $CmsPage['title'] }}</td>
                                                 <td>{{ $CmsPage['url'] }}</td>
+                                                <td>{{ Carbon\Carbon::parse($CmsPage['created_at'])->format('d-m-Y') }}
+                                                </td>
                                                 <td>
                                                     @php
                                                         $status = (int) $CmsPage['status'];
                                                     @endphp
-                                                    <input type="checkbox" name="status"
+                                                    {{-- <input type="checkbox" name="status"
                                                         @if ($status === 1) checked @else @endif
                                                         data-bootstrap-switch data-off-color="danger"
                                                         data-on-color="success" data-on-text="Active"
-                                                        data-off-text="Inactive">
+                                                        data-off-text="Inactive"> --}}
+                                                    @if ($status === 1)
+                                                        <a class="updatePageStatus" id="page-{{ $CmsPage['id'] }}"
+                                                            page_id="{{ $CmsPage['id'] }}" href="javascript:void(0)">
+                                                            <i class="text-success fas fa-toggle-on" status="active"></i>
+                                                        </a>
+                                                    @else
+                                                        <a class="updatePageStatus" id="page-{{ $CmsPage['id'] }}"
+                                                            page_id="{{ $CmsPage['id'] }}" href="javascript:void(0)">
+                                                            <i class="text-danger fas fa-toggle-off" status="inactive"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
 
-                                                </td>
-                                                <td>{{ Carbon\Carbon::parse($CmsPage['created_at'])->format('d-m-Y') }}
-                                                </td>
-                                                <td></td>
                                             </tr>
                                         @endforeach
 
@@ -99,15 +111,10 @@
     <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ url('admin/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
-    <!-- Bootstrap Switch -->
-    <script src="{{ url('admin/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
     <!-- Page specific script -->
     <script>
         $(function() {
             $("#cmspages").DataTable();
-            $("input[data-bootstrap-switch]").each(function() {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            })
         });
     </script>
 @endpush
