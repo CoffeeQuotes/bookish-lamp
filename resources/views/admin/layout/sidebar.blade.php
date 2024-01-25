@@ -11,10 +11,20 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('admin/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                @if (!empty(Auth::guard('admin')->user()->image))
+                    @php
+                        $imageName = Auth::guard('admin')->user()->image;
+                    @endphp
+                    <img src="{{ url('admin/img/photos/' . $imageName) }}" class="elevation-2" alt="User Image"
+                        style="width: 50px;height: 50px;border-radius: 50%;object-fit: cover;">
+                @else
+                    <img src="{{ asset('admin/img/user2-160x160.jpg') }}" class="elevation-2"
+                        style="width: 50px;height: 50px;border-radius: 50%;object-fit: cover;" alt="User Image">
+                @endif
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ Auth::guard('admin')->user()->name }}</a>
+                <span class="d-block text-secondary">{{ ucfirst(Auth::guard('admin')->user()->type) }}</span>
             </div>
         </div>
 
@@ -53,7 +63,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('admin/update-admin-details') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Update Admin Details</p>
                             </a>
