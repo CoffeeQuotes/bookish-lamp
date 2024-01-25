@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth, Hash;
+use Auth, Hash, Session;
 use App\Models\Admin;
+use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -13,6 +14,7 @@ class AdminController extends Controller
     //
     public function dashboard()
     {
+        Session::put('page', 'dashboard');
         return view('admin.dashboard');
     }
 
@@ -51,6 +53,7 @@ class AdminController extends Controller
 
     public function updatePassword(Request $request)
     {
+        Session::put('page', 'update-password');
         if ($request->isMethod('post')) {
             $data = $request->all();
 
@@ -101,6 +104,7 @@ class AdminController extends Controller
 
     public function updateAdminDetails(Request $request)
     {
+        Session::put('page', 'update-admin-details');
         if ($request->isMethod('post')) {
             $data = $request->all();
             // dd($data);

@@ -47,9 +47,37 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                @if (Session::get('page') === 'dashboard')
+                    @php
+                        $active = 'active';
+                    @endphp
+                @else
+                    @php
+                        $active = '';
+                    @endphp
+                @endif
+                <li class="nav-item">
+                    <a href="{{ url('admin/dashboard') }}" class="nav-link {{ $active }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                @if (Session::get('page') === 'update-password' || Session::get('page') === 'update-admin-details')
+                    @php
+                        $active = 'active';
+                        $menu = 'menu-open';
+                    @endphp
+                @else
+                    @php
+                        $active = '';
+                        $menu = '';
+                    @endphp
+                @endif
+                <li class="nav-item {{ $menu }}">
+                    <a href="#" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-cog"></i>
                         <p>
                             Settings
                             <i class="right fas fa-angle-left"></i>
@@ -57,18 +85,53 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('admin/update-password') }}" class="nav-link active">
+                            @if (Session::get('page') === 'update-password')
+                                @php
+                                    $active = 'active';
+                                @endphp
+                            @else
+                                @php
+                                    $active = '';
+                                @endphp
+                            @endif
+                            <a href="{{ url('admin/update-password') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Update Admin Password</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/update-admin-details') }}" class="nav-link">
+                            @if (Session::get('page') === 'update-admin-details')
+                                @php
+                                    $active = 'active';
+                                @endphp
+                            @else
+                                @php
+                                    $active = '';
+                                @endphp
+                            @endif
+                            <a href="{{ url('admin/update-admin-details') }}" class="nav-link {{ $active }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Update Admin Details</p>
                             </a>
                         </li>
                     </ul>
+                </li>
+                @if (Session::get('page') === 'cms-pages')
+                    @php
+                        $active = 'active';
+                    @endphp
+                @else
+                    @php
+                        $active = '';
+                    @endphp
+                @endif
+                <li class="nav-item">
+                    <a href="{{ url('admin/cms-pages') }}" class="nav-link {{ $active }}">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>
+                            Cms Pages
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/logout') }}" class="nav-link">
