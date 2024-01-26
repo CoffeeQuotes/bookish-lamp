@@ -53,7 +53,7 @@
                             @endif
                             @if (Session::has('success_message'))
                                 <div class="alert alert-success alert-dismissible fade show m-4" role="alert">
-                                    <strong><i class="icon fas fa-ban"></i>Success:
+                                    <strong><i class="icon fas fa-check-circle"></i>Success:
                                         {{ Session::get('success_message') }}</strong>
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span></button>

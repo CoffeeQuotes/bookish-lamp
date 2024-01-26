@@ -51,12 +51,41 @@ class CmsController extends Controller
     public function edit(Request $request, $id = null)
     {
         //
-        if ($id === null) {
+        if ($id == "") {
             $title = 'New CMS Page';
+            $cmsPage = new CmsPage();
+            $message = "CMS page created.";
         } else {
             $title = 'Edit CMS Page';
+            $cmsPage = CmsPage::findOrFail($id);
+            $message = "CMS Page updated";
         }
-        return view('admin.pages.add_edit_cms_page')->with(compact('title'));
+
+        if ($request->isMethod('post') || $request->isMethod('put')) {
+            $data = $request->all();
+            $rules = [
+                "title" => "required",
+                "url" => "required",
+                "description" => "required"
+            ];
+            $customMessage = [
+                'title.required' => 'Title is required',
+                'url.required' => 'URL is required',
+                'description.required' => 'Description is required',
+            ];
+
+            $this->validate($request, $rules, $customMessage);
+            $cmsPage->title = $data['title'];
+            $cmsPage->url = $data['url'];
+            $cmsPage->description = $data['description'];
+            $cmsPage->meta_title = $data['meta_title'];
+            $cmsPage->meta_description = $data['meta_description'];
+            $cmsPage->meta_keywords = $data['meta_keywords'];
+            $cmsPage->status = 1;
+            $cmsPage->save();
+            return redirect('admin/cms-pages')->with('success_message', $message);
+        }
+        return view('admin.pages.add_edit_cms_page')->with(compact('title', 'cmsPage'));
     }
 
     /**
@@ -81,8 +110,9 @@ class CmsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CmsPage $cmsPage)
+    public function destroy($id)
     {
-        //
+        CmsPage::destroy($id);
+        return redirect('admin/cms-pages')->with('success_message', 'The page has been deleted.');
     }
 }

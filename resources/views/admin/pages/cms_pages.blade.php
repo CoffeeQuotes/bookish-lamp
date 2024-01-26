@@ -37,6 +37,14 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
+                                @if (Session::has('success_message'))
+                                    <div class="alert alert-success alert-dismissible fade show m-4" role="alert">
+                                        <strong><i class="icon fas fa-check-circle"></i>Success:
+                                            {{ Session::get('success_message') }}</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                    </div>
+                                @endif
                                 <table id="cmspages" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -55,7 +63,8 @@
                                                 <td>{{ $CmsPage['url'] }}</td>
                                                 <td>{{ Carbon\Carbon::parse($CmsPage['created_at'])->format('d-m-Y') }}
                                                 </td>
-                                                <td>
+                                                <td class="d-flex justify-content-between flex-row">
+
                                                     @php
                                                         $status = (int) $CmsPage['status'];
                                                     @endphp
@@ -75,6 +84,13 @@
                                                             <i class="text-danger fas fa-toggle-off" status="inactive"></i>
                                                         </a>
                                                     @endif
+                                                    <a href="{{ url('admin/add-edit-cms-page/' . $CmsPage['id']) }}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ url('admin/delete-cms-page/' . $CmsPage['id']) }}"
+                                                        onclick="return confirm('Are you sure you want to delete this page?')">
+                                                        <i class="fas fa-trash text-danger"></i>
+                                                    </a>
                                                 </td>
 
                                             </tr>
